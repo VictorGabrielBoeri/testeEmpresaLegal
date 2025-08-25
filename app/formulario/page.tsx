@@ -183,8 +183,6 @@ export default function FormularioPage() {
           culture_values: formData.culture_values,
           culture_collaboration: formData.culture_collaboration,
           culture_innovation: formData.culture_innovation,
-          fit_score: score,
-          fit_classification: classificationResult,
         })
         .select()
 
