@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Loader2, Search, Filter, Users, TrendingUp, AlertCircle, CheckCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { ProcessingStatus } from "./processing-status"
 
 interface Evaluation {
   id: string
@@ -181,7 +182,10 @@ function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Cartões de Estatísticas */}
+      {/* Status do Processamento Assíncrono */}
+      <ProcessingStatus />
+      
+      {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <Card className="bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

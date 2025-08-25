@@ -190,6 +190,14 @@ export default function FormularioPage() {
 
       if (data && data[0]) {
         try {
+          // Processamento assíncrono da avaliação
+          await fetch("/api/process/async-evaluation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ evaluationId: data[0].id }),
+          })
+
+          // Notificação do resultado
           await fetch("/api/notifications/candidate-result", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
