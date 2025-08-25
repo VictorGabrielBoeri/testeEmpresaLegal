@@ -59,7 +59,7 @@ O FitScore é uma plataforma moderna de avaliação de candidatos que permite:
 
 ### 1. Clone o repositório
 \`\`\`bash
-git clone https://github.com/seu-usuario/fitscore.git
+git clone https://github.com/VictorGabrielBoeri/fitscore.git
 cd fitscore
 \`\`\`
 
