@@ -1,11 +1,11 @@
--- Update notification_logs table to support additional notification types
--- This fixes the constraint violation error by allowing more notification types
+-- Atualizar tabela notification_logs para suportar tipos de notificação adicionais
+-- Isso corrige o erro de violação de restrição permitindo mais tipos de notificação
 
--- Drop the existing constraint
+-- Remover a restrição existente
 ALTER TABLE public.notification_logs 
 DROP CONSTRAINT IF EXISTS notification_logs_notification_type_check;
 
--- Add updated constraint with more notification types
+-- Adicionar restrição atualizada com mais tipos de notificação
 ALTER TABLE public.notification_logs 
 ADD CONSTRAINT notification_logs_notification_type_check 
 CHECK (notification_type IN (
@@ -16,6 +16,6 @@ CHECK (notification_type IN (
   'scheduled_report'
 ));
 
--- Add comment for documentation
+-- Adicionar comentário para documentação
 COMMENT ON COLUMN public.notification_logs.notification_type IS 
-'Type of notification: candidate_result, manager_report, creative_insights, system_report, scheduled_report';
+'Tipo de notificação: candidate_result, manager_report, creative_insights, system_report, scheduled_report';

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient()
 
-    // Get evaluation details
+    // Obter detalhes da avaliação
     const { data: evaluation, error: evalError } = await supabase
       .from("evaluations")
       .select("*")
@@ -19,13 +19,13 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (evalError || !evaluation) {
-      return NextResponse.json({ error: "Evaluation not found" }, { status: 404 })
+      return NextResponse.json({ error: "Avaliação não encontrada" }, { status: 404 })
     }
 
-    // Simulate email notification (in production, integrate with email service)
+    // Simular notificação por email (em produção, integrar com serviço de email)
     const emailContent = generateCandidateEmail(evaluation)
 
-    // Log notification
+    // Registrar notificação
     const { error: logError } = await supabase.from("notification_logs").insert({
       evaluation_id: evaluationId,
       notification_type: "candidate_result",
@@ -35,20 +35,20 @@ export async function POST(request: NextRequest) {
     })
 
     if (logError) {
-      console.error("Error logging notification:", logError)
+      console.error("Erro ao registrar notificação:", logError)
     }
 
-    // In production, send actual email here
-    console.log(`[v0] Email sent to ${evaluation.candidate_email}:`, emailContent)
+    // Em produção, enviar email real aqui
+    console.log(`[v0] Email enviado para ${evaluation.candidate_email}:`, emailContent)
 
     return NextResponse.json({
       success: true,
-      message: "Notification sent successfully",
+      message: "Notificação enviada com sucesso",
       emailPreview: emailContent,
     })
   } catch (error) {
-    console.error("Error sending candidate notification:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Erro ao enviar notificação do candidato:", error)
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
   }
 }
 

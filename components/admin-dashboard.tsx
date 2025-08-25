@@ -109,7 +109,7 @@ function AdminDashboard() {
   const filterEvaluations = () => {
     let filtered = evaluations
 
-    // Filter by search term
+    // Filtrar por termo de busca
     if (searchTerm) {
       filtered = filtered.filter(
         (evaluation) =>
@@ -118,7 +118,7 @@ function AdminDashboard() {
       )
     }
 
-    // Filter by classification
+    // Filtrar por classificação
     if (classificationFilter !== "all") {
       filtered = filtered.filter((evaluation) => evaluation.fit_classification === classificationFilter)
     }
@@ -181,7 +181,7 @@ function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Statistics Cards */}
+      {/* Cartões de Estatísticas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <Card className="bg-gradient-to-br from-slate-50 to-slate-100 border-slate-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -239,7 +239,7 @@ function AdminDashboard() {
         </Card>
       </div>
 
-      {/* Filters */}
+      {/* Filtros */}
       <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-slate-900">Filtros</CardTitle>
@@ -279,7 +279,7 @@ function AdminDashboard() {
         </CardContent>
       </Card>
 
-      {/* Evaluations Table */}
+      {/* Tabela de Avaliações */}
       <Card className="border-slate-200">
         <CardHeader>
           <CardTitle className="text-slate-900">Avaliações ({filteredEvaluations.length})</CardTitle>

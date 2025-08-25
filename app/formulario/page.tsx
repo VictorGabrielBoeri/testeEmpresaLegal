@@ -198,8 +198,8 @@ export default function FormularioPage() {
             body: JSON.stringify({ evaluationId: data[0].id }),
           })
         } catch (notificationError) {
-          console.error("Error sending notification:", notificationError)
-          // Don't fail the submission if notification fails
+          console.error("Erro ao enviar notificação:", notificationError)
+          // Não falhar o envio se a notificação falhar
         }
       }
 

@@ -1,4 +1,4 @@
--- Create admin_profiles table with RLS
+-- Criar tabela admin_profiles com RLS
 CREATE TABLE IF NOT EXISTS public.admin_profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name TEXT,
@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS public.admin_profiles (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Enable RLS
+-- Habilitar RLS
 ALTER TABLE public.admin_profiles ENABLE ROW LEVEL SECURITY;
 
--- Create policies for admin_profiles
+-- Criar políticas para admin_profiles
 CREATE POLICY "admin_profiles_select_own"
   ON public.admin_profiles FOR SELECT
   USING (auth.uid() = id);
@@ -24,7 +24,7 @@ CREATE POLICY "admin_profiles_update_own"
   ON public.admin_profiles FOR UPDATE
   USING (auth.uid() = id);
 
--- Create trigger to auto-create admin profile on signup
+-- Criar trigger para auto-criar perfil de admin no cadastro
 CREATE OR REPLACE FUNCTION public.handle_new_admin_user()
 RETURNS TRIGGER
 LANGUAGE plpgsql
@@ -45,7 +45,7 @@ BEGIN
 END;
 $$;
 
--- Create trigger
+-- Criar trigger
 DROP TRIGGER IF EXISTS on_auth_admin_user_created ON auth.users;
 
 CREATE TRIGGER on_auth_admin_user_created

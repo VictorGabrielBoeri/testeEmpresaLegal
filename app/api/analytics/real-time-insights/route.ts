@@ -1,12 +1,12 @@
 import { createClient } from "@/lib/supabase/server"
 import { type NextRequest, NextResponse } from "next/server"
 
-// Creative Extra Logic: Real-time Analytics and Insights
+// Lógica Extra Criativa: Analytics e Insights em Tempo Real
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient()
 
-    // Get comprehensive analytics
+    // Obter analytics abrangentes
     const { data: evaluations, error } = await supabase
       .from("evaluations")
       .select("*")
@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    console.error("Error generating real-time insights:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Erro ao gerar insights em tempo real:", error)
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
   }
 }
 
@@ -43,14 +43,14 @@ function generateRealTimeInsights(evaluations: any[]) {
     (e) => new Date(e.created_at) > new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
   )
 
-  // Calculate trends
+  // Calcular tendências
   const avgScore = Math.round(evaluations.reduce((sum, e) => sum + e.fit_score, 0) / evaluations.length)
   const avgScore24h =
     last24h.length > 0 ? Math.round(last24h.reduce((sum, e) => sum + e.fit_score, 0) / last24h.length) : 0
   const avgScore7d =
     last7days.length > 0 ? Math.round(last7days.reduce((sum, e) => sum + e.fit_score, 0) / last7days.length) : 0
 
-  // Performance analysis
+  // Análise de performance
   const performanceScores = evaluations.map((e) =>
     Math.round(((e.performance_experience + e.performance_deliveries + e.performance_skills) / 3) * 20),
   )
@@ -65,7 +65,7 @@ function generateRealTimeInsights(evaluations: any[]) {
   const avgEnergy = Math.round(energyScores.reduce((sum, s) => sum + s, 0) / energyScores.length)
   const avgCulture = Math.round(cultureScores.reduce((sum, s) => sum + s, 0) / cultureScores.length)
 
-  // Classification distribution
+  // Distribuição de classificação
   const classifications = evaluations.reduce(
     (acc, e) => {
       acc[e.fit_classification] = (acc[e.fit_classification] || 0) + 1
@@ -74,12 +74,12 @@ function generateRealTimeInsights(evaluations: any[]) {
     {} as Record<string, number>,
   )
 
-  // Generate insights
+  // Gerar insights
   const trends = []
   const recommendations = []
   const alerts = []
 
-  // Trend analysis
+  // Análise de tendências
   if (avgScore24h > avgScore) {
     trends.push(`📈 Melhoria na qualidade: Score médio subiu ${avgScore24h - avgScore} pontos nas últimas 24h`)
   } else if (avgScore24h < avgScore - 5) {
@@ -91,7 +91,7 @@ function generateRealTimeInsights(evaluations: any[]) {
     trends.push(`🚀 Alto volume: ${last24h.length} avaliações nas últimas 24h`)
   }
 
-  // Performance insights
+  // Insights de performance
   const strongestArea =
     avgPerformance >= avgEnergy && avgPerformance >= avgCulture
       ? "Performance"
@@ -108,7 +108,7 @@ function generateRealTimeInsights(evaluations: any[]) {
   trends.push(`💪 Área mais forte: ${strongestArea} (${Math.max(avgPerformance, avgEnergy, avgCulture)}/100)`)
   trends.push(`🎯 Área para desenvolvimento: ${weakestArea} (${Math.min(avgPerformance, avgEnergy, avgCulture)}/100)`)
 
-  // Recommendations
+  // Recomendações
   const approvalRate =
     (((classifications["Fit Altíssimo"] || 0) + (classifications["Fit Aprovado"] || 0)) / evaluations.length) * 100
 
@@ -127,7 +127,7 @@ function generateRealTimeInsights(evaluations: any[]) {
     recommendations.push("Candidatos tecnicamente qualificados mas com baixa energia - revisar processo de seleção")
   }
 
-  // Time-based insights
+  // Insights baseados em tempo
   const hourlyDistribution = evaluations.reduce(
     (acc, e) => {
       const hour = new Date(e.created_at).getHours()

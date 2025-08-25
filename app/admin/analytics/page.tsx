@@ -65,7 +65,7 @@ export default function AnalyticsPage() {
 
   useEffect(() => {
     fetchInsights()
-    // Auto-refresh every 5 minutes
+    // Atualização automática a cada 5 minutos
     const interval = setInterval(fetchInsights, 5 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
@@ -130,7 +130,7 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Alerts */}
+        {/* Alertas */}
         {insights.alerts.length > 0 && (
           <div className="mb-6">
             {insights.alerts.map((alert, index) => (
@@ -145,7 +145,7 @@ export default function AnalyticsPage() {
           </div>
         )}
 
-        {/* Key Metrics */}
+        {/* Métricas Principais */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
@@ -194,7 +194,7 @@ export default function AnalyticsPage() {
           </Card>
         </div>
 
-        {/* Area Scores */}
+        {/* Pontuações por Área */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Performance por Área</CardTitle>
@@ -237,7 +237,7 @@ export default function AnalyticsPage() {
         </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Trends */}
+          {/* Tendências */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -256,7 +256,7 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
 
-          {/* Recommendations */}
+          {/* Recomendações */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

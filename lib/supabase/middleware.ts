@@ -6,8 +6,8 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
-  // With Fluid compute, don't put this client in a global environment
-  // variable. Always create a new one on each request.
+  // Com Fluid compute, não coloque este cliente em uma variável de ambiente global.
+  // Sempre crie um novo a cada requisição.
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -27,35 +27,35 @@ export async function updateSession(request: NextRequest) {
     },
   )
 
-  // Do not run code between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
+  // Não execute código entre createServerClient e
+  // supabase.auth.getUser(). Um simples erro pode tornar muito difícil debugar
+  // problemas com usuários sendo aleatoriamente desconectados.
 
-  // IMPORTANT: If you remove getUser() and you use server-side rendering
-  // with the Supabase client, your users may be randomly logged out.
+  // IMPORTANTE: Se você remover getUser() e usar renderização do lado do servidor
+  // com o cliente Supabase, seus usuários podem ser aleatoriamente desconectados.
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
   if (request.nextUrl.pathname.startsWith("/admin") && !user && !request.nextUrl.pathname.startsWith("/auth")) {
-    // no user, redirect to login page
+    // sem usuário, redirecionar para página de login
     const url = request.nextUrl.clone()
     url.pathname = "/auth/login"
     return NextResponse.redirect(url)
   }
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
-  // If you're creating a new response object with NextResponse.next() make sure to:
-  // 1. Pass the request in it, like so:
+  // IMPORTANTE: Você *deve* retornar o objeto supabaseResponse como está.
+  // Se você estiver criando um novo objeto de resposta com NextResponse.next() certifique-se de:
+  // 1. Passar a requisição nele, assim:
   //    const myNewResponse = NextResponse.next({ request })
-  // 2. Copy over the cookies, like so:
+  // 2. Copiar os cookies, assim:
   //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-  // 3. Change the myNewResponse object to fit your needs, but avoid changing
-  //    the cookies!
-  // 4. Finally:
+  // 3. Alterar o objeto myNewResponse para atender às suas necessidades, mas evite alterar
+  //    os cookies!
+  // 4. Finalmente:
   //    return myNewResponse
-  // If this is not done, you may be causing the browser and server to go out
-  // of sync and terminate the user's session prematurely!
+  // Se isso não for feito, você pode estar causando o navegador e servidor ficarem fora de
+  // sincronia e terminarem a sessão do usuário prematuramente!
 
   return supabaseResponse
 }

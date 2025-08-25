@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
 
-    // Get all candidates with FitScore >= 80 from the last 12 hours
+    // Obter todos os candidatos com FitScore >= 80 das últimas 12 horas
     const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString()
 
     const { data: approvedCandidates, error: queryError } = await supabase
@@ -22,38 +22,38 @@ export async function POST(request: NextRequest) {
     if (!approvedCandidates || approvedCandidates.length === 0) {
       return NextResponse.json({
         success: true,
-        message: "No new approved candidates in the last 12 hours",
+        message: "Nenhum candidato aprovado nas últimas 12 horas",
         count: 0,
       })
     }
 
-    // Generate report
+    // Gerar relatório
     const report = generateApprovedCandidatesReport(approvedCandidates)
 
-    // Log notification to admin
+    // Registrar notificação para admin
     const { error: logError } = await supabase.from("notification_logs").insert({
       notification_type: "approved_candidates_report",
-      recipient_email: "admin@legal.com", // In production, get from admin settings
+      recipient_email: "admin@legal.com", // Em produção, obter das configurações de admin
       status: "sent",
       sent_at: new Date().toISOString(),
     })
 
     if (logError) {
-      console.error("Error logging report notification:", logError)
+      console.error("Erro ao registrar notificação de relatório:", logError)
     }
 
-    // In production, send actual email to admin
-    console.log("[v0] Approved candidates report generated:", report)
+    // Em produção, enviar email real para admin
+    console.log("[v0] Relatório de candidatos aprovados gerado:", report)
 
     return NextResponse.json({
       success: true,
-      message: "Report generated and sent successfully",
+      message: "Relatório gerado e enviado com sucesso",
       count: approvedCandidates.length,
       reportPreview: report,
     })
   } catch (error) {
-    console.error("Error generating approved candidates report:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Erro ao gerar relatório de candidatos aprovados:", error)
+    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
   }
 }
 
