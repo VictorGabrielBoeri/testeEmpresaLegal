@@ -34,7 +34,14 @@ export default function SignUpPage() {
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      // Log para debug
+      console.log("🔍 Debug - Iniciando signup:")
+      console.log("📧 Email:", email)
+      console.log("🌐 Site URL:", process.env.NEXT_PUBLIC_SITE_URL)
+      console.log("📍 Origin:", window.location.origin)
+      console.log("🔗 Redirect URL:", `${process.env.NEXT_PUBLIC_SITE_URL ?? window.location.origin}/auth/callback`)
+
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -45,9 +52,27 @@ export default function SignUpPage() {
           },
         },
       })
+
+      // Log para debug
+      console.log("🔍 Debug - Resposta do Supabase:")
+      console.log("✅ Data:", data)
+      console.log("❌ Error:", error)
+      console.log("👤 User:", data?.user)
+      console.log("📧 Email Confirmed:", data?.user?.email_confirmed_at)
+      console.log("📨 Email Sent:", data?.user?.email_confirmed_at === null)
+
       if (error) throw error
+      
+      // Verificar se o email foi enviado
+      if (data?.user && !data.user.email_confirmed_at) {
+        console.log("✅ Email de confirmação enviado com sucesso!")
+      } else {
+        console.log("⚠️ Usuário já confirmado ou problema no envio")
+      }
+
       router.push("/auth/sign-up-success")
     } catch (error: unknown) {
+      console.error("❌ Erro no signup:", error)
       setError(error instanceof Error ? error.message : "An error occurred")
     } finally {
       setIsLoading(false)
