@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${geist.variable} ${manrope.variable} antialiased`}>
-      <body className="font-sans bg-background text-foreground">{children}</body>
+      <body suppressHydrationWarning className="font-sans bg-background text-foreground">{children}</body>
     </html>
   )
 }
